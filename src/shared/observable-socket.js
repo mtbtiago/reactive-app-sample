@@ -1,8 +1,24 @@
 import {Observable} from "rxjs";
 
 export class ObservableSocket {
+  get isConnected() { return this._state.isConnected; }
+  get isReconnecting() { return this._state.isReconnecting; }
+  get isTotalyDead() { return !this.isConnected && !this.isReconnecting; }
+
   constructor(socket) {
     this._socket = socket;
+    this._state = {};
+
+    // this code returns a new status object every time status changes
+    this.status$ = Observable.merge(
+      this.on$("connect").map(() => ({ isConnected: true })),
+      this.on$("disconnect").map(() => ({ isConnected: false })),
+      this.on$("reconnecting").map(attempt => ({ isConnected: false, isReconnecting: true, attempt })),
+      this.on$("reconnect_failed").map(() => ({ isConnected: false, isReconnecting: false })))
+      .publishReplay()
+      .refCount();
+
+    this.status$.subscribe(state => this._state = state);
   }
 
   //----------------
