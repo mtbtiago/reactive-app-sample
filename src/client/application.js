@@ -4,21 +4,13 @@ import * as services from "./services";
 
 // ---------------------
 // PLAYGROUND
-services.server.on$("test")
-  .map(d => d + " whoa")
-  .subscribe(item => {
-    console.log(`Got ${item} from server!`);
+services.server.emitAction$("login", { username: "foo", password: "bar" })
+  .subscribe(result => {
+    if (result.error)
+      console.error(result.error);
+    else
+      console.log("We're logged in");
   });
-
-services.server.status$.subscribe(status => console.log(status));
-
-// alternative syntax
-// services.server.status$.subscribe((status) => { console.log(status); });
-
-// classic syntax alternative:
-// services.server.status$.subscribe(function (status) {
-//   console.log(status);
-// });
 
 // ---------------------
 // Auth
