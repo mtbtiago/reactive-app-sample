@@ -14,5 +14,18 @@ class PlayerComponent extends ElementComponent {
   }
 }
 
-let component = new PlayerComponent();
-component.attach($("section.player"));
+let component;
+try {
+  component = new PlayerComponent();
+  component.attach($("section.player"));
+} catch (e) {
+  console.error(e);
+  if (component)
+    component.detach();
+
+} finally {
+  if (module.hot) {
+    module.hot.accept();
+    module.hot.dispose(() => component && component.detach());
+  }
+}

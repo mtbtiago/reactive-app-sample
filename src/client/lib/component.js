@@ -10,7 +10,7 @@ export class ComponentBase {
 
   detach() {
     this._onDetach();
-    for(let handler of this.onDetachHandlers)
+    for(let handler of this._onDetachHandlers)
       handler();
 
     for (let child of this.children)
@@ -39,7 +39,7 @@ export class ElementComponent extends ComponentBase {
 
   attach($mount) {
     super.attach($mount);
-    this.$element.appendTo($._$mount);
+    this.$element.appendTo($mount);
   }
 
   detach() {
