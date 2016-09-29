@@ -20,6 +20,7 @@ services.server
 require("./components/player/player");
 require("./components/users/users");
 require("./components/chat/chat");
+require("./components/playlist/playlist");
 
 // ---------------------
 // Bootstrap
