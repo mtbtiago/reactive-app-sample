@@ -1,24 +1,24 @@
 import $ from "jquery";
 import {ElementComponent} from "../../lib/component";
-import "./player.scss";
+import "./users.scss";
 
 
-class PlayerComponent extends ElementComponent {
+class UserComponent extends ElementComponent {
   constructor() {
-    super();
+    super("ul");
+    this.$element.addClass("users");
   }
 
   _onAttach() {
-    const $title = this._$mount.find("h1");
-    $title.text("Player!");
-    this.$element.append("<h2>HEY!</h2>");
+    const $title = this._$mount.find("> h1");
+    $title.text("Users");
   }
 }
 
 let component;
 try {
-  component = new PlayerComponent();
-  component.attach($("section.player"));
+  component = new UserComponent();
+  component.attach($("section.users"));
 } catch (e) {
   console.error(e);
   if (component)
